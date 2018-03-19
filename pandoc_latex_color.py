@@ -4,7 +4,7 @@
 Pandoc filter for changing color in LaTeX
 """
 
-from panflute import *
+from panflute import run_filter, debug, Span, Div, RawInline, RawBlock, MetaInlines
 
 def x11colors():
     # See https://www.w3.org/TR/css-color-3/#svg-color
