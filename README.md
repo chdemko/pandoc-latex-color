@@ -43,7 +43,7 @@ To upgrade to the most recent release, use
     apt-get update
     apt-get install python-pip
 
-It uses the *xcolor* LaTeX package to gto handle correctly colors in spans and divs.
+It uses the *xcolor* LaTeX package to handle correctly colors in spans and divs.
 
 [python]: https://www.python.org
 [on Windows]: https://www.python.org/downloads/windows
