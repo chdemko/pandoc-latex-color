@@ -4,7 +4,7 @@
 Pandoc filter for changing color in LaTeX
 """
 
-from panflute import run_filter, debug, Span, Div, RawInline, RawBlock, MetaInlines
+from panflute import run_filter, debug, Span, Div, RawInline, RawBlock, MetaInlines, MetaList
 
 def x11colors():
     # See https://www.w3.org/TR/css-color-3/#svg-color
@@ -229,7 +229,10 @@ def add_definition(defined, definition):
 def finalize(doc):
     # Add header-includes if necessary
     if 'header-includes' not in doc.metadata:
-        doc.metadata['header-includes'] = []
+        doc.metadata['header-includes'] = MetaList()
+    # Convert header-includes to MetaList if necessary
+    elif not isinstance(doc.metadata['header-includes'], MetaList):
+        doc.metadata['header-includes'] = MetaList(doc.metadata['header-includes'])
 
     # Add usefull LaTexPackage
     doc.metadata['header-includes'].append(MetaInlines(RawInline('\\usepackage{xcolor}', 'tex')))
