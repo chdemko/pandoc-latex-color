@@ -180,7 +180,7 @@ def add_latex(elem, latex):
 
 def color(elem, doc):
     # Is it in the right format and is it a Span, Div, Code or CodeBlock?
-    if doc.format == 'latex' and elem.tag in ['Span', 'Div']:
+    if doc.format in ['latex', 'beamer'] and elem.tag in ['Span', 'Div']:
 
         # Is there a latex-color attribute?
         if 'latex-color' in elem.attributes:
