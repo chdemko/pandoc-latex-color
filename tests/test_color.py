@@ -43,16 +43,17 @@ def test_span_attributes():
 
 def div(elem, doc):
     pandoc_latex_color.main(doc)
-    opening(elem.content[0], RawBlock)
-    closing(elem.content[1], RawBlock)
+    debug(elem.content)
+    opening(elem.content[0].content[0], RawInline)
+    closing(elem.content[0].content[-1], RawInline)
 
 def test_div_classes():
-    elem = Div(classes=['class1', 'class2'])
+    elem = Div(Para(Str('test')),classes=['class1', 'class2'])
     doc = Doc(elem, metadata=metadata(), format='latex', api_version=(1, 17, 2))
     div(elem, doc)
 
 def test_div_attributes():
-    elem = Div(attributes={'latex-color': 'red'})
+    elem = Div(Para(Str('test')),attributes={'latex-color': 'red'})
     doc = Doc(elem, format='latex', api_version=(1, 17, 2))
     div(elem, doc)
 

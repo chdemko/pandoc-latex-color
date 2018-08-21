@@ -4,7 +4,9 @@
 Pandoc filter for changing color in LaTeX
 """
 
-from panflute import run_filter, debug, Span, Div, RawInline, RawBlock, MetaInlines, MetaList
+from panflute import run_filter, debug, Span, Div, \
+  RawInline, Inline, MetaInlines, MetaList
+
 
 def x11colors():
     # See https://www.w3.org/TR/css-color-3/#svg-color
@@ -158,43 +160,104 @@ def x11colors():
         'yellowgreen': '9ACD32'
     }
 
-def latex_code(color):
+
+def color_code(color):
     return '\\color{' + color + '} '
+
+
+def bgcolor_code(color):
+    if color:
+        return '\\sethlcolor{' + color + '}'
+    return False
+
 
 def get_correct_color(color):
     if color in x11colors():
         return color
-    else:
-        debug('[WARNING] pandoc-latex-color: ' + color + ' is not a correct X11 color; using black')
+    if color:
+        debug(
+            '[WARNING] pandoc-latex-color: ' + color +
+            ' is not a correct X11 color; using black'
+        )
         return 'black'
+    return False
 
-def add_latex(elem, latex):
+
+def add_latex(elem, color, bgcolor):
     # Is it a Span?
     if isinstance(elem, Span):
-        elem.content.insert(0, RawInline(latex, 'tex'))
+        if bgcolor:
+            elem.content.insert(0, RawInline(bgcolor + '\\hl{', 'tex'))
+            elem.content.append(RawInline('}', 'tex'))
+
+        elem.content.insert(0, RawInline(color, 'tex'))
 
     # Is it a Div?
     elif isinstance(elem, Div):
-        elem.content.insert(0, RawBlock('{' + latex, 'tex'))
-        elem.content.append(RawBlock('}', 'tex'))
 
-def color(elem, doc):
+        inlines = {'first': None, 'last': None}
+
+        def find_inlines(elem, _):
+            if isinstance(elem, Inline):
+                inlines['last'] = elem
+                if inlines['first'] is None:
+                    inlines['first'] = elem
+
+        elem.walk(find_inlines, None)
+
+        if inlines['first'] is not None:
+            if bgcolor:
+                inlines['first'].parent.content.insert(
+                    0,
+                    RawInline('{' + color + bgcolor + '\\hl{', 'tex')
+                )
+                inlines['last'].parent.content.append(RawInline('}}', 'tex'))
+            else:
+                inlines['first'].parent.content.insert(
+                    0,
+                    RawInline('{' + color, 'tex')
+                )
+                inlines['last'].parent.content.append(RawInline('}', 'tex'))
+
+
+def colorize(elem, doc):
     # Is it in the right format and is it a Span, Div, Code or CodeBlock?
     if doc.format in ['latex', 'beamer'] and elem.tag in ['Span', 'Div']:
 
         # Is there a latex-color attribute?
-        if 'latex-color' in elem.attributes:
-            return add_latex(elem, latex_code(get_correct_color(elem.attributes['latex-color'])))
-        else:
-            # Get the classes
-            classes = set(elem.classes)
+        if 'latex-color' in elem.attributes or\
+           'latex-bgcolor' in elem.attributes:
+            try:
+                color = elem.attributes['latex-color']
+            except KeyError:
+                color = 'black'
 
-            # Loop on all color definition
-            for definition in doc.defined:
+            try:
+                bgcolor = elem.attributes['latex-bgcolor']
+            except KeyError:
+                bgcolor = False
 
-                # Are the classes correct?
-                if classes >= definition['classes']:
-                    return add_latex(elem, definition['latex'])
+            return add_latex(
+                elem,
+                color_code(get_correct_color(color)),
+                bgcolor_code(get_correct_color(bgcolor)),
+            )
+
+        # Get the classes
+        classes = set(elem.classes)
+
+        # Loop on all color definition
+        for definition in doc.defined:
+
+            # Are the classes correct?
+            if classes >= definition['classes']:
+                return add_latex(
+                    elem,
+                    definition['color'], definition['bgcolor']
+                )
+
+    return None
+
 
 def prepare(doc):
     # Prepare the definitions
@@ -209,8 +272,10 @@ def prepare(doc):
         for definition in meta:
 
             # Verify the definition
-            if isinstance(definition, dict) and 'classes' in definition and isinstance(definition['classes'], list):
+            if isinstance(definition, dict) and 'classes' in definition and\
+               isinstance(definition['classes'], list):
                 add_definition(doc.defined, definition)
+
 
 def add_definition(defined, definition):
     # Get the classes
@@ -220,11 +285,25 @@ def add_definition(defined, definition):
     if 'color' in definition:
         color = get_correct_color(definition['color'])
     else:
-        debug('[WARNING] pandoc-latex-color: color is not defined; using black')
+        debug(
+            '[WARNING] pandoc-latex-color: color is not defined; using black'
+        )
         color = 'black'
 
+    # Get the bgcolor
+    bgcolor = False
+    if 'bgcolor' in definition:
+        bgcolor = get_correct_color(definition['bgcolor'])
+    else:
+        bgcolor = False
+
     # Add a definition
-    defined.append({'classes' : set(classes), 'latex': latex_code(color)})
+    defined.append({
+        'classes': set(classes),
+        'color': color_code(color),
+        'bgcolor': bgcolor_code(bgcolor)
+    })
+
 
 def finalize(doc):
     # Add header-includes if necessary
@@ -232,14 +311,41 @@ def finalize(doc):
         doc.metadata['header-includes'] = MetaList()
     # Convert header-includes to MetaList if necessary
     elif not isinstance(doc.metadata['header-includes'], MetaList):
-        doc.metadata['header-includes'] = MetaList(doc.metadata['header-includes'])
+        doc.metadata['header-includes'] = MetaList(
+            doc.metadata['header-includes']
+        )
 
     # Add usefull LaTexPackage
-    doc.metadata['header-includes'].append(MetaInlines(RawInline('\\usepackage{xcolor}', 'tex')))
+    doc.metadata['header-includes'].append(MetaInlines(RawInline(
+        '\\usepackage{xcolor}',
+        'tex'
+    )))
+    doc.metadata['header-includes'].append(MetaInlines(RawInline(
+        '\\usepackage{soul,color}',
+        'tex'
+    )))
+    doc.metadata['header-includes'].append(MetaInlines(RawInline(
+        '\\soulregister\\cite7',
+        'tex'
+    )))
+    doc.metadata['header-includes'].append(MetaInlines(RawInline(
+        '\\soulregister\\ref7',
+        'tex'
+    )))
+    doc.metadata['header-includes'].append(MetaInlines(RawInline(
+        '\\soulregister\\pageref7',
+        'tex'
+    )))
 
-def main(doc = None):
-    return run_filter(color, prepare=prepare, finalize=finalize, doc=doc)
+    for color, value in x11colors().items():
+        doc.metadata['header-includes'].append(MetaInlines(RawInline(
+            '\\definecolor{' + color + '}{HTML}{' + value + '}', 'tex'
+        )))
+
+
+def main(doc=None):
+    return run_filter(colorize, prepare=prepare, finalize=finalize, doc=doc)
+
 
 if __name__ == '__main__':
     main()
-
