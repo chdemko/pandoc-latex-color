@@ -6,7 +6,7 @@
 [![PyPI format](https://img.shields.io/pypi/format/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
 [![License](https://img.shields.io/pypi/l/pandoc-latex-color/0.0.5.svg)](https://raw.githubusercontent.com/chdemko/pandoc-latex-color/0.0.5/LICENSE)
 [![Python version](https://img.shields.io/pypi/pyversions/pandoc-latex-color/0.0.5.svg)](https://pypi.org/project/pandoc-latex-color/0.0.5/)
-[![Development Status](https://img.shields.io/pypi/status/pandoc-latex-color/0.0.5.svg)](https://pypi.org/project/pandoc-latex-color/0.0.5_:/)
+[![Development Status](https://img.shields.io/pypi/status/pandoc-latex-color/0.0.5.svg)](https://pypi.org/project/pandoc-latex-color/0.0.5/)
 
 *pandoc-latex-color* is a [pandoc] filter for setting the color to `Span`, and `Div` that have speficied classes or `latex-color` attribute.
 
