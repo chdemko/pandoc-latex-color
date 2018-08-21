@@ -46,7 +46,7 @@ To upgrade to the current code, use
     apt-get update
     apt-get install python-pip
 
-It uses the *xcolor* LaTeX package to handle correctly colors in spans and divs.
+It uses the *xcolor* LaTeX package to handle correctly colors in spans and divs and the *soul* package for highlighing the text.
 
 [python]: https://www.python.org
 [on Windows]: https://www.python.org/downloads/windows
