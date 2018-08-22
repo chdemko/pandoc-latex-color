@@ -285,9 +285,6 @@ def add_definition(defined, definition):
     if 'color' in definition:
         color = get_correct_color(definition['color'])
     else:
-        debug(
-            '[WARNING] pandoc-latex-color: color is not defined; using black'
-        )
         color = 'black'
 
     # Get the bgcolor
