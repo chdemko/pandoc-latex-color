@@ -336,8 +336,25 @@ def finalize(doc):
 
     for color, value in x11colors().items():
         doc.metadata['header-includes'].append(MetaInlines(RawInline(
-            '\\definecolor{' + color + '}{HTML}{' + value + '}', 'tex'
+            '\\definecolor{' + color + '}{HTML}{' + value + '}',
+            'tex'
         )))
+
+    if doc.format == 'beamer':
+        special_beamer = [
+            '\\makeatletter',
+            '\\let\\HL\\hl',
+            '\\renewcommand\\hl{%',
+            '\\let\\set@color\\beamerorig@set@color',
+            '\\let\\reset@color\\beamerorig@reset@color',
+            '\\HL}',
+            '\\makeatother'
+        ]
+        for line in special_beamer:
+            doc.metadata['header-includes'].append(MetaInlines(RawInline(
+                line,
+                'tex'
+            )))
 
 
 def main(doc=None):
