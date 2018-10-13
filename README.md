@@ -1,12 +1,12 @@
 # pandoc-latex-color
-[![Build Status](https://img.shields.io/travis/chdemko/pandoc-latex-color/master.svg)](https://travis-ci.org/chdemko/pandoc-latex-color/branches)
-[![Coveralls](https://img.shields.io/coveralls/github/chdemko/pandoc-latex-color/master.svg)](https://coveralls.io/github/chdemko/pandoc-latex-color?branch=master)
+[![Build Status](https://img.shields.io/travis/chdemko/pandoc-latex-color/0.1.0.svg)](https://travis-ci.org/chdemko/pandoc-latex-color/branches)
+[![Coveralls](https://img.shields.io/coveralls/github/chdemko/pandoc-latex-color/0.1.0.svg)](https://coveralls.io/github/chdemko/pandoc-latex-color?branch=0.1.0)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/chdemko/pandoc-latex-color.svg)](https://scrutinizer-ci.com/g/chdemko/pandoc-latex-color/)
 [![PyPI version](https://img.shields.io/pypi/v/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
 [![PyPI format](https://img.shields.io/pypi/format/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
-[![License](https://img.shields.io/pypi/l/pandoc-latex-color.svg)](https://raw.githubusercontent.com/chdemko/pandoc-latex-color/master/LICENSE)
-[![Python version](https://img.shields.io/pypi/pyversions/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
-[![Development Status](https://img.shields.io/pypi/status/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
+[![License](https://img.shields.io/pypi/l/pandoc-latex-color/0.1.0.svg)](https://raw.githubusercontent.com/chdemko/pandoc-latex-color/0.1.0/LICENSE)
+[![Python version](https://img.shields.io/pypi/pyversions/pandoc-latex-color/0.1.0.svg)](https://pypi.org/project/pandoc-latex-color/0.1.0/)
+[![Development Status](https://img.shields.io/pypi/status/pandoc-latex-color/0.1.0.svg)](https://pypi.org/project/pandoc-latex-color/0.1.0/)
 
 *pandoc-latex-color* is a [pandoc] filter for setting the color to `Span`, and `Div` that have speficied classes or `latex-color` attribute.
 
@@ -46,7 +46,7 @@ To upgrade to the current code, use
     apt-get update
     apt-get install python-pip
 
-It uses the *xcolor* LaTeX package to handle correctly colors in spans and divs and the *soul* package for highlighing the text.
+It uses the *xcolor* LaTeX package to handle correctly colors in spans and divs and the *soulutf8* package for highlighing the text.
 
 [python]: https://www.python.org
 [on Windows]: https://www.python.org/downloads/windows
