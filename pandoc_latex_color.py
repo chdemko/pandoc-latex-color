@@ -318,7 +318,7 @@ def finalize(doc):
         'tex'
     )))
     doc.metadata['header-includes'].append(MetaInlines(RawInline(
-        '\\usepackage{soul,color}',
+        '\\usepackage{soulutf8,color}',
         'tex'
     )))
     doc.metadata['header-includes'].append(MetaInlines(RawInline(
