@@ -5,7 +5,8 @@ Pandoc filter for changing color in LaTeX
 """
 
 from panflute import run_filter, debug, Span, Div, \
-  RawInline, Inline, MetaInlines, MetaList
+  RawInline, Inline, MetaInlines, MetaList, \
+  RawBlock
 
 
 def x11colors():
@@ -194,31 +195,12 @@ def add_latex(elem, color, bgcolor):
 
     # Is it a Div?
     elif isinstance(elem, Div):
-
-        inlines = {'first': None, 'last': None}
-
-        def find_inlines(elem, _):
-            if isinstance(elem, Inline):
-                inlines['last'] = elem
-                if inlines['first'] is None:
-                    inlines['first'] = elem
-
-        elem.walk(find_inlines, None)
-
-        if inlines['first'] is not None:
-            if bgcolor:
-                inlines['first'].parent.content.insert(
-                    0,
-                    RawInline('{' + color + bgcolor + '\\hl{', 'tex')
-                )
-                inlines['last'].parent.content.append(RawInline('}}', 'tex'))
-            else:
-                inlines['first'].parent.content.insert(
-                    0,
-                    RawInline('{' + color, 'tex')
-                )
-                inlines['last'].parent.content.append(RawInline('}', 'tex'))
-
+        if bgcolor:
+            elem.content.insert(0, RawBlock('{' + color + bgcolor + '\\hl{', 'tex'))
+            elem.content.append(RawBlock('}', 'tex'))
+        else:
+            elem.content.insert(0, RawBlock('{' + color, 'tex'))
+            elem.content.append(RawBlock('}', 'tex'))
 
 def colorize(elem, doc):
     # Is it in the right format and is it a Span, Div, Code or CodeBlock?
