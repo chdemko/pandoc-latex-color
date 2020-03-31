@@ -1,10 +1,10 @@
 # pandoc-latex-color
-[![Build Status](https://img.shields.io/travis/chdemko/pandoc-latex-color/master.svg)](https://travis-ci.org/chdemko/pandoc-latex-color/branches)
-[![Coveralls](https://img.shields.io/coveralls/github/chdemko/pandoc-latex-color/master.svg)](https://coveralls.io/github/chdemko/pandoc-latex-color?branch=master)
+[![Build Status](https://img.shields.io/travis/chdemko/pandoc-latex-color/0.2.0.svg)](https://travis-ci.org/chdemko/pandoc-latex-color/branches)
+[![Coveralls](https://img.shields.io/coveralls/github/chdemko/pandoc-latex-color/0.2.0.svg)](https://coveralls.io/github/chdemko/pandoc-latex-color?branch=0.2.0)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/chdemko/pandoc-latex-color.svg)](https://scrutinizer-ci.com/g/chdemko/pandoc-latex-color/)
 [![PyPI version](https://img.shields.io/pypi/v/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
 [![PyPI format](https://img.shields.io/pypi/format/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
-[![License](https://img.shields.io/pypi/l/pandoc-latex-color.svg)](https://raw.githubusercontent.com/chdemko/pandoc-latex-color/master/LICENSE)
+[![License](https://img.shields.io/pypi/l/pandoc-latex-color.svg)](https://raw.githubusercontent.com/chdemko/pandoc-latex-color/0.2.0/LICENSE)
 [![Python version](https://img.shields.io/pypi/pyversions/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
 [![Development Status](https://img.shields.io/pypi/status/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
 
