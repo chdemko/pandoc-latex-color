@@ -85,6 +85,7 @@ setup(
         "test": [
             "black",
             "tox",
+            "pytest-runner",
             "coverage",
             "pylint",
             "Pygments",
