@@ -15,27 +15,22 @@ from os import path, makedirs
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-try:
-    import pypandoc
-
-    long_description = pypandoc.convert("README.md", "rst")
-except (IOError, ImportError):
-    with open(path.join(here, "README.md"), encoding="utf-8") as f:
-        long_description = f.read()
+with open("README.md", encoding="utf-8") as stream:
+    LONG_DESCRIPTION = stream.read()
 
 setup(
     name="pandoc-latex-color",
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # https://packaging.python.org/en/latest/single_source_version.html
-    version="0.2.0",
     # The project's description
     description="A pandoc filter for changing color in LaTeX",
-    long_description=long_description,
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     # The project's main homepage.
     url="https://github.com/chdemko/pandoc-latex-color",
     # The project's download page
-    download_url="https://github.com/chdemko/pandoc-latex-color/archive/master.zip",
+    download_url="https://github.com/chdemko/pandoc-latex-color/archive/develop.zip",
     # Author details
     author="Christophe Demko",
     author_email="chdemko@gmail.com",
@@ -62,7 +57,10 @@ setup(
         "Topic :: Text Processing :: Filters",
         # Specify the Python versions you support here. In particular, ensure
         # that you indicate whether you support Python 2, Python 3 or both.
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     # What does your project relate to?
     keywords="pandoc filters latex color",
@@ -77,7 +75,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=["panflute<1.12", "pypandoc>=1.4"],
+    install_requires=["panflute>=2.0"],
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
     # for example:
@@ -87,10 +85,10 @@ setup(
         "test": [
             "black",
             "tox",
+            "pytest-runner",
             "coverage",
             "pylint",
             "Pygments",
-            "flake8",
             "radon",
             "mypy",
             "pytest-cov",
@@ -98,6 +96,4 @@ setup(
     },
     # packages=find_packages(),
     # include_package_data = True,
-    setup_requires=["pytest-runner"],
-    tests_require=["pytest", "coverage"],
 )
