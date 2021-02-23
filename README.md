@@ -1,5 +1,5 @@
 # pandoc-latex-color
-[![Build Status](https://img.shields.io/travis/chdemko/pandoc-latex-color/develop.svg)](https://travis-ci.org/chdemko/pandoc-latex-color/branches)
+![Python package](https://github.com/chdemko/pandoc-latex-color/workflows/Python%20package/badge.svg?branch=develop)
 [![Coveralls](https://img.shields.io/coveralls/github/chdemko/pandoc-latex-color/develop.svg)](https://coveralls.io/github/chdemko/pandoc-latex-color?branch=develop)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/chdemko/pandoc-latex-color.svg)](https://scrutinizer-ci.com/g/chdemko/pandoc-latex-color/)
 [![PyPI version](https://img.shields.io/pypi/v/pandoc-latex-color.svg)](https://pypi.org/project/pandoc-latex-color/)
