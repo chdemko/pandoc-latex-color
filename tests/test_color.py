@@ -38,13 +38,13 @@ def span(elem, doc, color):
 
 def test_span_classes():
     elem = Span(classes=["class1", "class2"])
-    doc = Doc(Para(elem), metadata=metadata(), format="latex", api_version=(1, 17, 2))
+    doc = Doc(Para(elem), metadata=metadata(), format="latex")
     span(elem, doc, doc.get_metadata()["pandoc-latex-color"][0]["color"])
 
 
 def test_span_attributes():
     elem = Span(attributes={"latex-color": "red"})
-    doc = Doc(Para(elem), format="latex", api_version=(1, 17, 2))
+    doc = Doc(Para(elem), format="latex")
     span(elem, doc, "red")
 
 
@@ -57,13 +57,13 @@ def div(elem, doc):
 
 def test_div_classes():
     elem = Div(Para(Str("test")), classes=["class1", "class2"])
-    doc = Doc(elem, metadata=metadata(), format="latex", api_version=(1, 17, 2))
+    doc = Doc(elem, metadata=metadata(), format="latex")
     div(elem, doc)
 
 
 def test_div_attributes():
     elem = Div(Para(Str("test")), attributes={"latex-color": "red"})
-    doc = Doc(elem, format="latex", api_version=(1, 17, 2))
+    doc = Doc(elem, format="latex")
     div(elem, doc)
 
 
@@ -73,7 +73,7 @@ def test_div_multi():
         BlockQuote(Para(Str("test"))),
         attributes={"latex-color": "red"},
     )
-    doc = Doc(elem, format="latex", api_version=(1, 17, 2))
+    doc = Doc(elem, format="latex")
     div(elem, doc)
 
 
@@ -87,7 +87,7 @@ def test_bad_color():
         )
     }
     elem = Span(classes=["class1", "class2"])
-    doc = Doc(Para(elem), metadata=metadata, format="latex", api_version=(1, 17, 2))
+    doc = Doc(Para(elem), metadata=metadata, format="latex")
     pandoc_latex_color.main(doc)
     assert isinstance(elem.content[0], RawInline)
     assert elem.content[0].format == "tex"
@@ -101,5 +101,5 @@ def test_missing_color():
         )
     }
     elem = Span(classes=["class1", "class2"])
-    doc = Doc(Para(elem), metadata=metadata, format="latex", api_version=(1, 17, 2))
+    doc = Doc(Para(elem), metadata=metadata, format="latex")
     span(elem, doc, "black")

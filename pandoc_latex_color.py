@@ -259,7 +259,6 @@ def prepare(doc):
         for definition in meta:
 
             # Verify the definition
-            # pylint: disable=bad-continuation
             if (
                 isinstance(definition, dict)
                 and "classes" in definition
