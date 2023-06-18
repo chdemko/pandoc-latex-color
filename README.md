@@ -40,8 +40,7 @@ $ pip install --upgrade --force git+https://github.com/chdemko/pandoc-latex-colo
 `pip` is a script that downloads and installs modules from the Python Package Index, [PyPI].  It should come installed with your python distribution. If you are running linux, `pip` may be bundled separately. On a Debian-based system (including Ubuntu), you can install it as root using
 
 ~~~shell
-$ sudo apt-get update
-$ sudo apt-get install python-pip
+$ sudo apt-get install python3-pip
 ~~~
 
 It uses the *xcolor* LaTeX package to handle correctly colors in spans and divs and the *soulutf8* package for highlighing the text.
