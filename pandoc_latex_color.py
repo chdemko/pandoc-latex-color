@@ -1,22 +1,29 @@
 #!/usr/bin/env python
 
 """
-Pandoc filter for changing color in LaTeX
+Pandoc filter for changing color in LaTeX.
 """
 
 from panflute import (  # type: ignore
-    run_filter,
-    debug,
-    Span,
     Div,
-    RawInline,
     MetaInlines,
     MetaList,
     RawBlock,
+    RawInline,
+    Span,
+    debug,
+    run_filter,
 )
 
 
 def x11colors():
+    """
+    Get the x1 colors.
+
+    Returns
+    -------
+        A dictionary of colornames -> colorcode.
+    """
     # See https://www.w3.org/TR/css-color-3/#svg-color
     return {
         "aliceblue": "F0F8FF",
@@ -170,16 +177,52 @@ def x11colors():
 
 
 def color_code(color):
+    """
+    Get the LaTeX color code.
+
+    Arguments
+    ---------
+    color
+        X11 color name
+
+    Returns
+    -------
+        The LaTeX color code.
+    """
     return "\\color{" + color + "} "
 
 
 def bgcolor_code(color):
+    """
+    Get the LaTeX color code for the background.
+
+    Arguments
+    ---------
+    color
+        X11 color name
+
+    Returns
+    -------
+        The LaTeX color code for the background.
+    """
     if color:
         return "\\sethlcolor{" + color + "}"
     return False
 
 
 def get_correct_color(color):
+    """
+    Get a correct color name.
+
+    Arguments
+    ---------
+    color
+        Color name
+
+    Returns
+    -------
+        A X11 color name.
+    """
     if color in x11colors():
         return color
     if color:
@@ -193,6 +236,18 @@ def get_correct_color(color):
 
 
 def add_latex(elem, color, bgcolor):
+    """
+    Insert LaTeX code.
+
+    Arguments
+    ---------
+    elem
+        The pandoc element
+    color
+        The X11 color name
+    bgcolor
+        The X11 bgcolor name
+    """
     # Is it a Span?
     if isinstance(elem, Span):
         if bgcolor:
@@ -212,9 +267,22 @@ def add_latex(elem, color, bgcolor):
 
 
 def colorize(elem, doc):
-    # Is it in the right format and is it a Span, Div, Code or CodeBlock?
-    if doc.format in ["latex", "beamer"] and elem.tag in ["Span", "Div"]:
+    """
+    Colorize an element.
 
+    Arguments
+    ---------
+    elem
+        The pandoc element
+    doc
+        The pandoc document
+
+    Returns
+    -------
+        LaTeX code or None.
+    """
+    # Is it in the right format and is it a Span, Div, Code or CodeBlock?
+    if doc.format in ("latex", "beamer") and elem.tag in ("Span", "Div"):
         # Is there a latex-color attribute?
         if "latex-color" in elem.attributes or "latex-bgcolor" in elem.attributes:
             try:
@@ -238,7 +306,6 @@ def colorize(elem, doc):
 
         # Loop on all color definition
         for definition in doc.defined:
-
             # Are the classes correct?
             if classes >= definition["classes"]:
                 return add_latex(elem, definition["color"], definition["bgcolor"])
@@ -247,6 +314,14 @@ def colorize(elem, doc):
 
 
 def prepare(doc):
+    """
+    Prepare the document.
+
+    Arguments
+    ---------
+    doc
+        The pandoc document
+    """
     # Prepare the definitions
     doc.defined = []
 
@@ -254,10 +329,8 @@ def prepare(doc):
     meta = doc.get_metadata("pandoc-latex-color")
 
     if isinstance(meta, list):
-
         # Loop on all definitions
         for definition in meta:
-
             # Verify the definition
             if (
                 isinstance(definition, dict)
@@ -268,6 +341,16 @@ def prepare(doc):
 
 
 def add_definition(defined, definition):
+    """
+    Add a definition.
+
+    Arguments
+    ---------
+    defined
+        A list of definition
+    definition
+        A new definition
+    """
     # Get the classes
     classes = definition["classes"]
 
@@ -295,6 +378,14 @@ def add_definition(defined, definition):
 
 
 def finalize(doc):
+    """
+    Finalize the document.
+
+    Arguments
+    ---------
+    doc
+        The pandoc document
+    """
     # Add header-includes if necessary
     if "header-includes" not in doc.metadata:
         doc.metadata["header-includes"] = MetaList()
@@ -302,7 +393,7 @@ def finalize(doc):
     elif not isinstance(doc.metadata["header-includes"], MetaList):
         doc.metadata["header-includes"] = MetaList(doc.metadata["header-includes"])
 
-    # Add usefull LaTexPackage
+    # Add useful LaTexPackage
     doc.metadata["header-includes"].append(
         MetaInlines(RawInline("\\usepackage{xcolor}", "tex"))
     )
@@ -341,6 +432,18 @@ def finalize(doc):
 
 
 def main(doc=None):
+    """
+    Convert the pandoc document.
+
+    Arguments
+    ---------
+    doc
+        The pandoc document
+
+    Returns
+    -------
+        The modified pandoc document
+    """
     return run_filter(colorize, prepare=prepare, finalize=finalize, doc=doc)
 
 

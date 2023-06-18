@@ -1,0 +1,13 @@
+---
+pandoc-latex-color:
+  - classes: [important]
+    color: red
+    bgcolor: blue
+---
+
+::: important ::::::
+This is important content
+::::::::::::::::::::
+
+This is normal content, [warning content]{latex-color=orange latex-bgcolor=green} and [important content]{.important}.
+
