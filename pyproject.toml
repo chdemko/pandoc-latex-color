@@ -4,7 +4,7 @@
 
 [tool.poetry]
     name = "pandoc-latex-color"
-    version = "1.0.0.0"
+    version = "1.0.0.1"
     description="A pandoc filter for changing color in LaTeX"
     authors = ["Christophe Demko <chdemko@gmail.com>"]
     license = "BSD-3-Clause"
