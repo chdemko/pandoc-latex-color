@@ -2,7 +2,7 @@ Installation
 ============
 
 [![Python package](https://github.com/chdemko/pandoc-latex-color/workflows/Python%20package/badge.svg?branch=develop)](https://github.com/chdemko/pandoc-latex-color/actions/workflows/python-package.yml)
-[![Coveralls](https://img.shields.io/coveralls/github/chdemko/pandoc-latex-color/develop.svg)](https://coveralls.io/github/chdemko/pandoc-latex-color?branch=develop)
+[![Coveralls](https://img.shields.io/coveralls/github/chdemko/pandoc-latex-color/develop.svg?logo=Codecov&logoColor=white)](https://coveralls.io/github/chdemko/pandoc-latex-color?branch=develop)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/chdemko/pandoc-latex-color.svg?logo=scrutinizer)](https://scrutinizer-ci.com/g/chdemko/pandoc-latex-color/)
 [![Code Climate](https://codeclimate.com/github/chdemko/pandoc-latex-color/badges/gpa.svg)](https://codeclimate.com/github/chdemko/pandoc-latex-color/)
 [![CodeFactor](https://img.shields.io/codefactor/grade/github/chdemko/pandoc-latex-color/develop.svg?logo=codefactor)](https://www.codefactor.io/repository/github/chdemko/pandoc-latex-color)
