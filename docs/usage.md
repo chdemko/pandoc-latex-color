@@ -1,12 +1,11 @@
-# Usage
+Usage
+=====
 
 To apply the filter, use the following option with pandoc:
 
 ~~~shell
 $ pandoc --filter pandoc-latex-color
 ~~~
-
-## Explanation
 
 Explanation
 -----------
