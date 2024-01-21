@@ -4,7 +4,7 @@
 Pandoc filter for changing color in LaTeX.
 """
 
-from panflute import (  # type: ignore
+from panflute import (
     Div,
     MetaInlines,
     MetaList,
