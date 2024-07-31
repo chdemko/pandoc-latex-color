@@ -4,8 +4,12 @@
 Pandoc filter for changing color in LaTeX.
 """
 
+from typing import Any
+
 from panflute import (
     Div,
+    Doc,
+    Element,
     MetaInlines,
     MetaList,
     RawBlock,
@@ -16,12 +20,13 @@ from panflute import (
 )
 
 
-def x11colors():
+def x11colors() -> dict[str, str]:
     """
     Get the x1 colors.
 
     Returns
     -------
+    dict[str, str]
         A dictionary of colornames -> colorcode.
     """
     # See https://www.w3.org/TR/css-color-3/#svg-color
@@ -176,7 +181,7 @@ def x11colors():
     }
 
 
-def color_code(color):
+def color_code(color: str | bool) -> str:
     """
     Get the LaTeX color code.
 
@@ -187,12 +192,15 @@ def color_code(color):
 
     Returns
     -------
+    str
         The LaTeX color code.
     """
-    return "\\color{" + color + "} "
+    if color:
+        return f"\\color{{{color}}} "
+    return "\\color{black} "
 
 
-def bgcolor_code(color):
+def bgcolor_code(color: str | bool) -> str | bool:
     """
     Get the LaTeX color code for the background.
 
@@ -203,14 +211,15 @@ def bgcolor_code(color):
 
     Returns
     -------
+    str | bool
         The LaTeX color code for the background.
     """
     if color:
-        return "\\sethlcolor{" + color + "}"
+        return f"\\sethlcolor{{{color}}}"
     return False
 
 
-def get_correct_color(color):
+def get_correct_color(color: str | bool) -> str | bool:
     """
     Get a correct color name.
 
@@ -221,21 +230,21 @@ def get_correct_color(color):
 
     Returns
     -------
-        A X11 color name.
+    str | bool
+        A X11 color name or False.
     """
     if color in x11colors():
         return color
     if color:
         debug(
-            "[WARNING] pandoc-latex-color: "
-            + color
-            + " is not a correct X11 color; using black"
+            f"[WARNING] pandoc-latex-color: {color}"
+            f" is not a correct X11 color; using black"
         )
         return "black"
     return False
 
 
-def add_latex(elem, color, bgcolor):
+def add_latex(elem: Element, color: str | bool, bgcolor: str | bool) -> None:
     """
     Insert LaTeX code.
 
@@ -250,23 +259,23 @@ def add_latex(elem, color, bgcolor):
     """
     # Is it a Span?
     if isinstance(elem, Span):
-        if bgcolor:
-            elem.content.insert(0, RawInline(bgcolor + "\\hl{", "tex"))
+        if isinstance(bgcolor, str):
+            elem.content.insert(0, RawInline(f"{bgcolor}\\hl{{", "tex"))
             elem.content.append(RawInline("}", "tex"))
 
         elem.content.insert(0, RawInline(color, "tex"))
 
     # Is it a Div?
     elif isinstance(elem, Div):
-        if bgcolor:
-            elem.content.insert(0, RawBlock("{" + color + bgcolor + "\\hl{", "tex"))
+        if isinstance(bgcolor, str):
+            elem.content.insert(0, RawBlock(f"{{{color}{bgcolor}\\hl{{", "tex"))
             elem.content.append(RawBlock("}", "tex"))
         else:
-            elem.content.insert(0, RawBlock("{" + color, "tex"))
+            elem.content.insert(0, RawBlock(f"{{{color}", "tex"))
             elem.content.append(RawBlock("}", "tex"))
 
 
-def colorize(elem, doc):
+def colorize(elem: Element, doc: Doc) -> None:
     """
     Colorize an element.
 
@@ -276,10 +285,6 @@ def colorize(elem, doc):
         The pandoc element
     doc
         The pandoc document
-
-    Returns
-    -------
-        LaTeX code or None.
     """
     # Is it in the right format and is it a Span, Div, Code or CodeBlock?
     if doc.format in ("latex", "beamer") and elem.tag in ("Span", "Div"):
@@ -295,11 +300,12 @@ def colorize(elem, doc):
             except KeyError:
                 bgcolor = False
 
-            return add_latex(
+            add_latex(
                 elem,
                 color_code(get_correct_color(color)),
                 bgcolor_code(get_correct_color(bgcolor)),
             )
+            return
 
         # Get the classes
         classes = set(elem.classes)
@@ -308,12 +314,11 @@ def colorize(elem, doc):
         for definition in doc.defined:
             # Are the classes correct?
             if classes >= definition["classes"]:
-                return add_latex(elem, definition["color"], definition["bgcolor"])
+                add_latex(elem, definition["color"], definition["bgcolor"])
+                return
 
-    return None
 
-
-def prepare(doc):
+def prepare(doc: Doc) -> None:
     """
     Prepare the document.
 
@@ -340,7 +345,7 @@ def prepare(doc):
                 add_definition(doc.defined, definition)
 
 
-def add_definition(defined, definition):
+def add_definition(defined: list[dict[str, Any]], definition: dict[str, Any]) -> None:
     """
     Add a definition.
 
@@ -361,7 +366,7 @@ def add_definition(defined, definition):
         color = "black"
 
     # Get the bgcolor
-    bgcolor = False
+    bgcolor: str | bool = False
     if "bgcolor" in definition:
         bgcolor = get_correct_color(definition["bgcolor"])
     else:
@@ -377,7 +382,7 @@ def add_definition(defined, definition):
     )
 
 
-def finalize(doc):
+def finalize(doc: Doc) -> None:
     """
     Finalize the document.
 
@@ -413,7 +418,7 @@ def finalize(doc):
     for color, value in x11colors().items():
         doc.metadata["header-includes"].append(
             MetaInlines(
-                RawInline("\\definecolor{" + color + "}{HTML}{" + value + "}", "tex")
+                RawInline(f"\\definecolor{{{color}}}{{HTML}}{{{value}}}", "tex")
             )
         )
 
@@ -431,7 +436,7 @@ def finalize(doc):
             doc.metadata["header-includes"].append(MetaInlines(RawInline(line, "tex")))
 
 
-def main(doc=None):
+def main(doc: Doc | None = None) -> Doc:
     """
     Convert the pandoc document.
 
@@ -442,6 +447,7 @@ def main(doc=None):
 
     Returns
     -------
+    Doc
         The modified pandoc document
     """
     return run_filter(colorize, prepare=prepare, finalize=finalize, doc=doc)
