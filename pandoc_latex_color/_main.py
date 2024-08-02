@@ -3,16 +3,15 @@
 """
 Pandoc filter for changing color in LaTeX.
 """
+from __future__ import annotations
 
 from typing import Any
 
 from panflute import (
-    Div,
     Doc,
     Element,
     MetaInlines,
     MetaList,
-    RawBlock,
     RawInline,
     Span,
     debug,
@@ -196,8 +195,8 @@ def color_code(color: str | bool) -> str:
         The LaTeX color code.
     """
     if color:
-        return f"\\color{{{color}}} "
-    return "\\color{black} "
+        return f"\\color{{{color}}}"
+    return "\\color{black}"
 
 
 def bgcolor_code(color: str | bool) -> str | bool:
@@ -257,22 +256,10 @@ def add_latex(elem: Element, color: str | bool, bgcolor: str | bool) -> None:
     bgcolor
         The X11 bgcolor name
     """
-    # Is it a Span?
-    if isinstance(elem, Span):
-        if isinstance(bgcolor, str):
-            elem.content.insert(0, RawInline(f"{bgcolor}\\hl{{", "tex"))
-            elem.content.append(RawInline("}", "tex"))
-
-        elem.content.insert(0, RawInline(color, "tex"))
-
-    # Is it a Div?
-    elif isinstance(elem, Div):
-        if isinstance(bgcolor, str):
-            elem.content.insert(0, RawBlock(f"{{{color}{bgcolor}\\hl{{", "tex"))
-            elem.content.append(RawBlock("}", "tex"))
-        else:
-            elem.content.insert(0, RawBlock(f"{{{color}", "tex"))
-            elem.content.append(RawBlock("}", "tex"))
+    elem.content.insert(0, RawInline(color, "tex"))
+    if isinstance(bgcolor, str):
+        elem.content.insert(1, RawInline(f"{bgcolor}\\hl{{", "tex"))
+        elem.content.append(RawInline("}", "tex"))
 
 
 def colorize(elem: Element, doc: Doc) -> None:
@@ -286,8 +273,8 @@ def colorize(elem: Element, doc: Doc) -> None:
     doc
         The pandoc document
     """
-    # Is it in the right format and is it a Span, Div, Code or CodeBlock?
-    if doc.format in ("latex", "beamer") and elem.tag in ("Span", "Div"):
+    # Is it in the right format and is it a Span ?
+    if doc.format in ("latex", "beamer") and isinstance(elem, Span):
         # Is there a latex-color attribute?
         if "latex-color" in elem.attributes or "latex-bgcolor" in elem.attributes:
             try:
@@ -366,7 +353,6 @@ def add_definition(defined: list[dict[str, Any]], definition: dict[str, Any]) ->
         color = "black"
 
     # Get the bgcolor
-    bgcolor: str | bool = False
     if "bgcolor" in definition:
         bgcolor = get_correct_color(definition["bgcolor"])
     else:
