@@ -24,14 +24,17 @@ Installation
 [![Code Size](https://img.shields.io/github/languages/code-size/chdemko/pandoc-latex-color.svg?logo=data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIEdlbmVyYXRvcjogU1ZHIFJlcG8gTWl4ZXIgVG9vbHMgLS0+Cgo8c3ZnCiAgIGZpbGw9IiMwMDAwMDAiCiAgIHdpZHRoPSI4MDBweCIKICAgaGVpZ2h0PSI4MDBweCIKICAgdmlld0JveD0iMCAwIDI0IDI0IgogICBkYXRhLW5hbWU9IkxheWVyIDEiCiAgIHZlcnNpb249IjEuMSIKICAgaWQ9InN2ZzE0NzYiCiAgIHNvZGlwb2RpOmRvY25hbWU9IndlaWdodC1zdmdyZXBvLWNvbS5zdmciCiAgIGlua3NjYXBlOnZlcnNpb249IjEuMS4yICgwYTAwY2Y1MzM5LCAyMDIyLTAyLTA0KSIKICAgeG1sbnM6aW5rc2NhcGU9Imh0dHA6Ly93d3cuaW5rc2NhcGUub3JnL25hbWVzcGFjZXMvaW5rc2NhcGUiCiAgIHhtbG5zOnNvZGlwb2RpPSJodHRwOi8vc29kaXBvZGkuc291cmNlZm9yZ2UubmV0L0RURC9zb2RpcG9kaS0wLmR0ZCIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczpzdmc9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcwogICAgIGlkPSJkZWZzMTQ4MCIgLz4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgaWQ9Im5hbWVkdmlldzE0NzgiCiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IgogICAgIGJvcmRlcm9wYWNpdHk9IjEuMCIKICAgICBpbmtzY2FwZTpwYWdlc2hhZG93PSIyIgogICAgIGlua3NjYXBlOnBhZ2VvcGFjaXR5PSIwLjAiCiAgICAgaW5rc2NhcGU6cGFnZWNoZWNrZXJib2FyZD0iMCIKICAgICBzaG93Z3JpZD0iZmFsc2UiCiAgICAgaW5rc2NhcGU6em9vbT0iMC44OTg3NSIKICAgICBpbmtzY2FwZTpjeD0iNDAwIgogICAgIGlua3NjYXBlOmN5PSIzOTkuNDQzNjciCiAgICAgaW5rc2NhcGU6d2luZG93LXdpZHRoPSIxOTIwIgogICAgIGlua3NjYXBlOndpbmRvdy1oZWlnaHQ9IjExNjMiCiAgICAgaW5rc2NhcGU6d2luZG93LXg9IjE5MjAiCiAgICAgaW5rc2NhcGU6d2luZG93LXk9IjAiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMSIKICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJzdmcxNDc2IiAvPgogIDxwYXRoCiAgICAgZD0iTTE5LDRIMTcuNTVBMy4wOCwzLjA4LDAsMCwwLDE3LDNhMywzLDAsMCwwLTIuMjUtMUg5LjI3QTMsMywwLDAsMCw3LDNhMy4wOCwzLjA4LDAsMCwwLS41NywxSDVBMywzLDAsMCwwLDIsN1YxOWEzLDMsMCwwLDAsMywzSDE5YTMsMywwLDAsMCwzLTNWN0EzLDMsMCwwLDAsMTksNFpNOC41Miw0LjM0QTEsMSwwLDAsMSw5LjI3LDRoNS40NmExLDEsMCwwLDEsLjc1LjM0LDEsMSwwLDAsMSwuMjUuNzhsLS41LDRhMSwxLDAsMCwxLTEsLjg4SDEyLjU5bDEuMTQtMi40YTEsMSwwLDAsMC0xLjgtLjg2TDEwLjM3LDEwaC0uNmExLDEsMCwwLDEtMS0uODhsLS41LTRBMSwxLDAsMCwxLDguNTIsNC4zNFpNMjAsMTlhMSwxLDAsMCwxLTEsMUg1YTEsMSwwLDAsMS0xLTFWN0ExLDEsMCwwLDEsNSw2SDYuMzdsLjQyLDMuMzdhMywzLDAsMCwwLDMsMi42M2g0LjQ2YTMsMywwLDAsMCwzLTIuNjNMMTcuNjMsNkgxOWExLDEsMCwwLDEsMSwxWm0tNi0zSDEwYTEsMSwwLDAsMCwwLDJoNGExLDEsMCwwLDAsMC0yWiIKICAgICBpZD0icGF0aDE0NzQiCiAgICAgc3R5bGU9ImZpbGw6I2ZmZmZmZiIgLz4KPC9zdmc+Cg==)](http://pandoc-latex-color.readthedocs.io/en/latest/)
 [![Source Rank](https://img.shields.io/librariesio/sourcerank/pypi/pandoc-latex-color.svg?logo=libraries.io&logoColor=white)](https://libraries.io/pypi/pandoc-latex-color)
 
-*pandoc-latex-color* is a [pandoc] filter for setting the color to `Span`, and `Div` that have speficied classes or `latex-color` attribute.
+*pandoc-latex-color* is a [pandoc] filter for setting the color to `Span`
+that have speficied classes or `latex-color` attribute.
 
 [pandoc]: http://pandoc.org/
 
 Instructions
 ------------
 
-*pandoc-latex-color* requires [python], a programming language that comes pre-installed on linux and Mac OS X, and which is easily installed [on Windows].
+*pandoc-latex-color* requires [python], a programming language that comes
+pre-installed on linux and Mac OS X, and which is easily installed
+[on Windows].
 
 Install *pandoc-latex-color* using the bash command
 
@@ -45,9 +48,13 @@ To upgrade to the most recent release, use
 $ pipx upgrade pandoc-latex-color
 ~~~
 
-`pipx` is a script to install and run python applications in isolated environments from the Python Package Index, [PyPI]. It can be installed using instructions given [here](https://pipx.pypa.io/stable/).
+`pipx` is a script to install and run python applications in isolated
+environments from the Python Package Index, [PyPI].
+It can be installed using instructions given
+[here](https://pipx.pypa.io/stable/).
 
-It uses the *xcolor* LaTeX package to handle correctly colors in spans and divs and the *soulutf8* package for highlighing the text.
+It uses the *xcolor* LaTeX package to handle correctly colors in spans
+and the *soulutf8* package for highlighing the text.
 
 [python]: https://www.python.org
 [on Windows]: https://www.python.org/downloads/windows
@@ -57,7 +64,8 @@ It uses the *xcolor* LaTeX package to handle correctly colors in spans and divs 
 Getting Help
 ------------
 
-If you have any difficulties with *pandoc-latex-color*, please feel welcome to [file an issue] on github so that we can help.
+If you have any difficulties with *pandoc-latex-color*,
+please feel welcome to [file an issue] on github so that we can help.
 
 [file an issue]: https://github.com/chdemko/pandoc-latex-color/issues
 

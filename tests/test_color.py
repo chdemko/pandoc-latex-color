@@ -1,118 +1,127 @@
-# This Python file uses the following encoding: utf-8
-
 from unittest import TestCase
 from panflute import (
-    BlockQuote,
-    Div,
     Doc,
-    MetaList,
-    MetaMap,
-    MetaString,
-    Para,
-    RawBlock,
-    RawInline,
-    Span,
-    Str,
-    debug,
+    convert_text,
 )
 
 import pandoc_latex_color
 
 
-def metadata():
-    return {
-        "pandoc-latex-color": MetaList(
-            MetaMap(
-                color=MetaString("red"),
-                classes=MetaList(MetaString("class1"), MetaString("class2")),
+class ColorTestCase(TestCase):
+    @classmethod
+    def conversion(cls, markdown) -> Doc:
+        """
+        Convert a markdown text to a panflute instance.
+
+        Parameters
+        ----------
+        markdown
+            Text
+
+        Returns
+        -------
+        Doc
+            A panflute document
+        """
+        doc = convert_text(markdown, standalone=True)
+        doc.format = "latex"
+        pandoc_latex_color.main(doc)
+        return doc
+
+    def verify_conversion(self, markdown, expected, output_format="latex") -> None:
+        """
+        Verify the conversion
+
+        Parameters
+        ----------
+        markdown
+            Input text
+        expected
+            Expected output
+        output_format
+            Desired conversion
+        """
+        doc = self.conversion(markdown)
+        text = convert_text(
+            doc,
+            input_format="panflute",
+            output_format=output_format,
+            extra_args=["--wrap=none"],
+        )
+        print(text.strip())
+        print(expected.strip())
+        self.assertEqual(text.strip(), expected.strip())
+
+    def test_span_classes(self):
+        self.verify_conversion(
+            """
+---
+pandoc-latex-color:
+  - classes: [class1, class2]
+    color: red
+---
+
+[This is a span]{.class1 .class2}
+            """,
+            """
+{\\color{red}This is a span}
+            """,
+        )
+        self.verify_conversion(
+            """
+---
+pandoc-latex-color:
+  - classes: [class1, class2]
+    color: red
+    bgcolor: blue
+---
+
+[**This is a span**]{.class1 .class2}
+            """,
+            """
+{\\color{red}\\sethlcolor{blue}\\hl{\\textbf{This is a span}}}
+            """,
+        )
+
+        def test_span_attributes(self):
+            self.verify_conversion(
+                """
+    [This is a span]{latex-color="red"}
+                """,
+                """
+    {\\color{red}This is a span}
+                """,
             )
-        )
-    }
-
-
-def opening(value, type):
-    assert isinstance(value, type)
-    assert value.format == "tex"
-    assert value.text == "{\\color{red} "
-
-
-def closing(value, type):
-    assert isinstance(value, type)
-    assert value.format == "tex"
-    assert value.text == "}"
-
-
-def span(elem, doc, color):
-    pandoc_latex_color.main(doc)
-    assert isinstance(elem.content[0], RawInline)
-    assert elem.content[0].format == "tex"
-    assert elem.content[0].text == "\\color{" + color + "} "
-
-
-def test_span_classes():
-    elem = Span(classes=["class1", "class2"])
-    doc = Doc(Para(elem), metadata=metadata(), format="latex")
-    span(elem, doc, doc.get_metadata()["pandoc-latex-color"][0]["color"])
-
-
-def test_span_attributes():
-    elem = Span(attributes={"latex-color": "red"})
-    doc = Doc(Para(elem), format="latex")
-    span(elem, doc, "red")
-
-
-def div(elem, doc):
-    pandoc_latex_color.main(doc)
-    debug(elem.content)
-    opening(elem.content[0], RawBlock)
-    closing(elem.content[-1], RawBlock)
-
-
-def test_div_classes():
-    elem = Div(Para(Str("test")), classes=["class1", "class2"])
-    doc = Doc(elem, metadata=metadata(), format="latex")
-    div(elem, doc)
-
-
-def test_div_attributes():
-    elem = Div(Para(Str("test")), attributes={"latex-color": "red"})
-    doc = Doc(elem, format="latex")
-    div(elem, doc)
-
-
-def test_div_multi():
-    elem = Div(
-        Para(Str("test")),
-        BlockQuote(Para(Str("test"))),
-        attributes={"latex-color": "red"},
-    )
-    doc = Doc(elem, format="latex")
-    div(elem, doc)
-
-
-def test_bad_color():
-    metadata = {
-        "pandoc-latex-color": MetaList(
-            MetaMap(
-                color=MetaString("badcolor"),
-                classes=MetaList(MetaString("class1"), MetaString("class2")),
+            self.verify_conversion(
+                """
+    [This is a span]{latex-color="red" latex-bgcolor="blue"}
+                """,
+                """
+    {\\color{red}\\sethlcolor{blue}\\hl{This is a span}}
+                """,
             )
-        )
-    }
-    elem = Span(classes=["class1", "class2"])
-    doc = Doc(Para(elem), metadata=metadata, format="latex")
-    pandoc_latex_color.main(doc)
-    assert isinstance(elem.content[0], RawInline)
-    assert elem.content[0].format == "tex"
-    assert elem.content[0].text == "\\color{black} "
 
-
-def test_missing_color():
-    metadata = {
-        "pandoc-latex-color": MetaList(
-            MetaMap(classes=MetaList(MetaString("class1"), MetaString("class2")))
+    def test_bad_color(self):
+        self.verify_conversion(
+            """
+[This is a span]{latex-color="badcolor"}
+            """,
+            """
+{\\color{black}This is a span}
+            """,
         )
-    }
-    elem = Span(classes=["class1", "class2"])
-    doc = Doc(Para(elem), metadata=metadata, format="latex")
-    span(elem, doc, "black")
+
+    def test_missing_color(self):
+        self.verify_conversion(
+            """
+---
+pandoc-latex-color:
+  - classes: [class1, class2]
+---
+
+[This is a span]{.class1 .class2}
+            """,
+            """
+{\\color{black}This is a span}
+            """,
+        )

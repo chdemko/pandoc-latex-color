@@ -5,11 +5,8 @@ pandoc-latex-color:
     bgcolor: blue
 ---
 
-::: important ::::::
-This is important content
-::::::::::::::::::::
-
 This is normal content,
-[warning content]{latex-color=orange latex-bgcolor=green}
+[warning content]{latex-color=orange latex-bgcolor=green},
+[red content]{latex-color=red}
 and [important content]{.important}.
 
