@@ -83,23 +83,23 @@ pandoc-latex-color:
             """,
         )
 
-        def test_span_attributes(self):
-            self.verify_conversion(
-                """
-    [This is a span]{latex-color="red"}
-                """,
-                """
-    {\\color{red}This is a span}
-                """,
-            )
-            self.verify_conversion(
-                """
-    [This is a span]{latex-color="red" latex-bgcolor="blue"}
-                """,
-                """
-    {\\color{red}\\sethlcolor{blue}\\hl{This is a span}}
-                """,
-            )
+    def test_span_attributes(self):
+        self.verify_conversion(
+            """
+[This is a span]{latex-color="red"}
+            """,
+            """
+{\\color{red}This is a span}
+            """,
+        )
+        self.verify_conversion(
+            """
+[This is a span]{latex-color="red" latex-bgcolor="blue"}
+            """,
+            """
+{\\color{red}\\sethlcolor{blue}\\hl{This is a span}}
+            """,
+        )
 
     def test_bad_color(self):
         self.verify_conversion(
