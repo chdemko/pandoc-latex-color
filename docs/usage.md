@@ -3,7 +3,7 @@ Usage
 
 To apply the filter, use the following option with pandoc:
 
-~~~shell
+~~~shell-session
 $ pandoc --filter pandoc-latex-color
 ~~~
 

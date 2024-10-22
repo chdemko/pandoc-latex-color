@@ -3,3 +3,4 @@ pylint
 unsubscriptable
 toplevel
 bgcolor
+noinspection
